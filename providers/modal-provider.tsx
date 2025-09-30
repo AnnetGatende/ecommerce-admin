@@ -1,6 +1,8 @@
 "use client";
 
 import { StoreModal } from "@/components/modals/store-modal";
+import { Button } from "@/components/ui/button";
+import {toast} from "react-hot-toast";
 import{ useEffect, useState} from "react";
 
 export const ModalProvider = () => {
@@ -17,6 +19,7 @@ export const ModalProvider = () => {
         <>
 
         <StoreModal />
+ 
         </>
     );
 };

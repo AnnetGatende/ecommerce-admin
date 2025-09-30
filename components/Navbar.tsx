@@ -1,14 +1,35 @@
-"use client";
+import { UserButton } from "@clerk/nextjs";
+import { MainNav } from "@/components/main-nav";
+import StoreSwitcher from "@/components/store-switcher";
+import prismadb from "@/lib/prismadb";
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server"; 
 
-import { UserButton, SignedIn } from "@clerk/nextjs";
+const Navbar = async () => {
+  const { userId } = await auth(); 
 
-export default function Navbar() {
+  if (!userId) {
+    redirect("/sign-in");
+  }
+
+  const stores = await prismadb.store.findMany({
+    where: {
+      userId,
+    },
+  });
+
   return (
-    <nav className="flex justify-between items-center p-4 bg-black text-white">
-      <h1 className="text-xl font-bold">Ecommerce-Annet</h1>
-      <SignedIn>
-        <UserButton afterSignOutUrl="/" />
-      </SignedIn>
-    </nav>
+    <div className="border-b border-black/5">
+      <div className="flex h-16 items-center px-4">
+        <StoreSwitcher items={stores} />
+        <MainNav className="mx-6" />
+
+        <div className="ml-auto flex items-center space-x-4">
+          <UserButton afterSignOutUrl="/" />
+        </div>
+      </div>
+    </div>
   );
-}
+};
+
+export default Navbar;

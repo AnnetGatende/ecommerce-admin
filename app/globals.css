@@ -8,11 +8,15 @@ body,
 :root {
   --background: #ffffff;
   --foreground: #171717;
+   --primary: #000000;           
+  --muted-foreground: #6b7280; 
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+   --color-primary: var(--primary);        
+  --color-muted-foreground: var(--muted-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -21,6 +25,8 @@ body,
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+     --primary: #ffffff;           
+    --muted-foreground: #9ca3af;
   }
 }
 

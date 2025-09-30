@@ -3,6 +3,8 @@ import * as z from "zod";
  import { zodResolver } from "@hookform/resolvers/zod";
  import { useState } from "react";
  import axios from "axios";
+ import {toast} from "react-hot-toast";
+
 
 import { useStoreModal } from "@/hooks/use-store-modal";
 import Modal from "@/components/ui/modal";
@@ -32,12 +34,12 @@ export const StoreModal = () => {
         try{
             setLoading(true);
 
-            const response = await axios.post('/api/stores', values);
+        const response =   await axios.post('/api/stores', values);
 
-            console.log(response.data);
-
-        }catch(error){
-            console.log(error);
+        window.location.assign('/${response.data.id}');
+            
+        }catch (error) { 
+            toast.error("Something went wrong.");
         } finally{
             setLoading(false);
         }
