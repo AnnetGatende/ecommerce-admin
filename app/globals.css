@@ -1,37 +1,173 @@
 @import "tailwindcss";
+
+/* === Reset & Full Height === */
 html,
 body,
-:root{
-  height: 100%;
-}
-
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-   --primary: #000000;           
-  --muted-foreground: #6b7280; 
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-   --color-primary: var(--primary);        
-  --color-muted-foreground: var(--muted-foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* === Custom Variables === */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 10%;
+  --primary: 220 80% 50%;
+  --primary-foreground: 0 0% 100%;
+  --muted-foreground: 220 9% 46%;
+  --border: 220 5% 50%;
+  --font-sans: var(--font-geist-sans, Arial, Helvetica, sans-serif);
+  --font-mono: var(--font-geist-mono, monospace);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-     --primary: #ffffff;           
-    --muted-foreground: #9ca3af;
-  }
+.dark {
+  --background: 0 0% 4%;
+  --foreground: 0 0% 93%;
+  --primary: 220 90% 60%;
+  --primary-foreground: 0 0% 100%;
+  --muted-foreground: 220 9% 65%;
+  --border: 240 4% 40%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-sans);
+}
+
+/* === Buttons === */
+button[type='submit'] {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  padding: 8px 16px !important;
+  border-radius: 6px !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s !important;
+}
+
+.dark button[type='submit'] {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+button[type='submit']:hover {
+  opacity: 0.9 !important;
+}
+
+button[type='submit']:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+button:not([data-slot="button"]):not(.dropdown-trigger) {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.dark button:not([data-slot="button"]):not(.dropdown-trigger) {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+button[data-slot="button"][type="submit"] {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.dark button[data-slot="button"][type="submit"] {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+button[data-slot="button"]:not([type="submit"]):not([class*="bg-red"]):not([class*="red-"]) {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.dark button[data-slot="button"]:not([type="submit"]):not([class*="bg-red"]):not([class*="red-"]) {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+button[class*="bg-red"],
+button[class*="red-500"],
+button[class*="red-600"] {
+  background-color: #ef4444 !important;
+  color: #fff !important;
+}
+
+.dark button[class*="bg-red"],
+.dark button[class*="red-500"],
+.dark button[class*="red-600"] {
+  background-color: #ef4444 !important;
+  color: #fff !important;
+}
+
+button:disabled {
+  background-color: #f3f4f6 !important;
+  color: #9ca3af !important;
+  border-color: #e5e7eb !important;
+  cursor: not-allowed !important;
+  opacity: 0.6 !important;
+}
+
+.dark button:disabled {
+  background-color: #374151 !important;
+  color: #6b7280 !important;
+  border-color: #4b5563 !important;
+}
+
+.dropdown-trigger svg {
+  color: #000000;
+}
+
+.dark .dropdown-trigger svg {
+  color: #ffffff;
+}
+
+/* === Dropdown & Menu === */
+[role="menu"] {
+  background-color: hsl(var(--background)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+[role="menuitem"] {
+  color: hsl(var(--foreground)) !important;
+}
+
+[role="menuitem"]:hover {
+  background-color: hsl(var(--background)) !important;
+  opacity: 0.8;
+}
+
+[role="dialog"] {
+  background-color: #ffffff !important;
+}
+
+.dark [role="dialog"] {
+  background-color: #ffffff !important;
+}
+
+
+/* === URL Display === */
+.url-display {
+  background-color: #f3f4f6;
+  color: #000000;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 12px;
+  display: inline;
+}
+
+.dark .url-display {
+  background-color: #f3f4f6;
+  color: #000000;
 }

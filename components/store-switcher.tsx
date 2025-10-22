@@ -4,7 +4,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { useStoreModal } from "@/hooks/use-store-modal";
 import { Store } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Store as StoreIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -35,6 +36,12 @@ export default function StoreSwitcher({
     const currentStore= formattedItems.find((item) => item.value === params.storeId) 
     
     const [open, setOpen] = useState(false)
+
+    // ✅ ADD THESE 3 LINES ONLY:
+    const [isMounted, setIsMounted] = useState(false);
+    useEffect(() => { setIsMounted(true); }, []);
+    if (!isMounted) return null;
+    // ✅ END OF ADDITION
     
     const onStoreSelect =(store:{value:string, label:string}) =>{
         setOpen(false);

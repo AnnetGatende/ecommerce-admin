@@ -29,14 +29,14 @@ const SettingsPage: React.FC<SettingsPageProps> = async({
     if (!store) {
         redirect("/");
     }
+return (
+  <div className="page-wrapper">
+    <div className="page-content">
+      <SettingsForm initialData={store} />
+    </div>
+  </div>
+);
 
-    return (
-        <div className="flex-col">
-            <div className="flex-1 space-y-4 p-8 pt-6">
-                <SettingsForm initialData={store}/>
-            </div>
-        </div>
-    );
 }
 
 export default SettingsPage;
