@@ -5,7 +5,7 @@ import { DropdownMenu,
     DropdownMenuItem, 
     DropdownMenuTrigger
  } from "@/components/ui/dropdown-menu";
-import { CategoryColumn } from "./columns";
+import {SizeColumn } from "./columns";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { Edit } from "lucide-react";
@@ -18,7 +18,7 @@ import axios from "axios";
 import { AlertModal } from "@/components/modals/alert-modal";
 
 interface CellActionProps{
-    data:CategoryColumn;
+    data:SizeColumn;
 };
 
 export const CellAction:React.FC<CellActionProps>=({
@@ -34,17 +34,17 @@ export const CellAction:React.FC<CellActionProps>=({
 
     const onCopy=(id: string)=>{
        navigator.clipboard.writeText(id);
-       toast.success("Category Id copied to the clipnoard.");
+       toast.success("Size Id copied to the clipnoard.");
     };
 
     const onDelete= async()=>{
         try{
             setLoading(true)
-            await axios.delete(`/api/${params.storeId}/categories/${data.id}`);
+            await axios.delete(`/api/${params.storeId}/sizes/${data.id}`);
             router.refresh();
-            toast.success("Category deleted.");
+            toast.success("Size deleted.");
         }catch(error){
-            toast.error("make sure you removed all  products using this category first.");
+            toast.error("make sure you removed all  products using this size first.");
         }finally{
             setLoading(false)
             setOpen(false)
@@ -78,7 +78,7 @@ export const CellAction:React.FC<CellActionProps>=({
              <Copy className="mr-2 h-4 w-4"/>
              Copy Id
           </DropdownMenuItem>
-          <DropdownMenuItem  onClick={()=>router.push(`/${params.storeId}/categories/${data.id}`)}>
+          <DropdownMenuItem  onClick={()=>router.push(`/${params.storeId}/sizes/${data.id}`)}>
              <Edit className="mr-2 h-4 w-4"/>
              Update
           </DropdownMenuItem>

@@ -171,3 +171,40 @@ button:disabled {
   background-color: #f3f4f6;
   color: #000000;
 }
+
+
+/* Light mode */
+.select-trigger,
+.select-trigger * {
+  background-color: white !important;
+  color: black !important;
+  border-color: #d1d5db !important; /* gray-300 */
+}
+
+/* Dark mode */
+.dark .select-trigger,
+.dark .select-trigger * {
+  background-color: #1f2937 !important; /* gray-800 */
+  color: white !important;
+  border-color: #374151 !important; /* gray-700 */
+}
+
+/* Dropdown content */
+.select-content,
+.select-content * {
+  background-color: white !important;
+  color: black !important;
+}
+
+.dark .select-content,
+.dark .select-content * {
+  background-color: #1f2937 !important;
+  color: white !important;
+}
+
+
+
+
+
+
+

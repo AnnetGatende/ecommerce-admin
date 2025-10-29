@@ -8,6 +8,7 @@ import {
   FormProvider,
   useFormContext,
   useFormState,
+  UseFormReturn,
   type ControllerProps,
   type FieldPath,
   type FieldValues,
@@ -97,12 +98,20 @@ function FormLabel({
     <Label
       data-slot="form-label"
       data-error={!!error}
-      className={cn("data-[error=true]:text-destructive", className)}
       htmlFor={formItemId}
+      className={cn(
+        // Default styles
+        "text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+        // Error color (if applicable)
+        "data-[error=true]:text-destructive",
+        // Allow user overrides
+        className
+      )}
       {...props}
     />
   )
 }
+
 
 function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
