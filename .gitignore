@@ -1,7 +1,6 @@
 node_modules
 .next/
 
-
 # production
 /build
 /dist
@@ -20,7 +19,6 @@ yarn-error.log*
 
 # vercel
 .vercel
-.
 
 # typescript
 *.tsbuildinfo
