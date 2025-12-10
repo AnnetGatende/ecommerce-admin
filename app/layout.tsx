@@ -1,40 +1,47 @@
-import React from "react";
+import { Roboto } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
-import type { Metadata } from "next";
+
+import { ModalProvider } from "@/providers/modal-provider";
 
 import "./globals.css";
 
-import { ModalProvider } from "@/providers/modal-provider";
-import { ToasterProvider } from "@/providers/toast-provider";
-import { ThemeProvider } from "next-themes";
+import type { Metadata } from "next";
+import { ToastProvider } from "@/providers/toast-provider";
+import NextTopLoader from 'nextjs-toploader';
+import { Header } from "@/components/Header";
 
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["400", "700"], // Add font weights as needed
+});
 
 
 export const metadata: Metadata = {
-  title: "Ecommerce-Annet",
-  description: "Your modern e-commerce admin dashboard",
+  title: "Digihipo Admin",
+  description: "Digihipo Admin",
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        
-        <body >
-         
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          
-            <ModalProvider />
-            <ToasterProvider />
-
-            {children}
-          </ThemeProvider>
+    <html lang="en">
+      <body className={roboto.className}>
+     
+      <NextTopLoader
+              color="#3b82f6" // Default blue - change to match your theme
+              height={3}
+              showSpinner={true}
+              
+            />
+        <ToastProvider />
+        <ModalProvider />
+        {children}
         </body>
-      </html>
+    </html>
     </ClerkProvider>
   );
 }

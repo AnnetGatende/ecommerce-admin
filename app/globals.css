@@ -1,210 +1,115 @@
-@import "tailwindcss";
+@tailwind base;
+  @tailwind components;
+  @tailwind utilities;
 
-/* === Reset & Full Height === */
-html,
-body,
-:root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
+  html,
+  body,
+  :root {
+    height: 100%;
+  }
 
-/* === Custom Variables === */
-:root {
-  --background: 0 0% 100%;
-  --foreground: 0 0% 10%;
-  --primary: 220 80% 50%;
-  --primary-foreground: 0 0% 100%;
-  --muted-foreground: 220 9% 46%;
-  --border: 220 5% 50%;
-  --font-sans: var(--font-geist-sans, Arial, Helvetica, sans-serif);
-  --font-mono: var(--font-geist-mono, monospace);
-}
+  @layer base {
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 0 0% 3.9%;
 
-.dark {
-  --background: 0 0% 4%;
-  --foreground: 0 0% 93%;
-  --primary: 220 90% 60%;
-  --primary-foreground: 0 0% 100%;
-  --muted-foreground: 220 9% 65%;
-  --border: 240 4% 40%;
-}
+      --card: 0 0% 100%;
+      --card-foreground: 0 0% 3.9%;
 
-body {
-  background: hsl(var(--background));
-  color: hsl(var(--foreground));
-  font-family: var(--font-sans);
-}
+      --popover: 0 0% 100%;
+      --popover-foreground: 0 0% 3.9%;
 
-/* === Buttons === */
-button[type='submit'] {
-  background-color: #000000 !important;
-  color: #ffffff !important;
-  padding: 8px 16px !important;
-  border-radius: 6px !important;
-  border: none !important;
-  cursor: pointer !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  font-size: 14px !important;
-  font-weight: 500 !important;
-  transition: all 0.2s !important;
-}
+      --primary: 0 0% 9%;
+      --primary-foreground: 0 0% 98%;
 
-.dark button[type='submit'] {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-}
+      --secondary: 0 0% 96.1%;
+      --secondary-foreground: 0 0% 9%;
 
-button[type='submit']:hover {
-  opacity: 0.9 !important;
-}
+      --muted: 0 0% 96.1%;
+      --muted-foreground: 0 0% 45.1%;
 
-button[type='submit']:disabled {
-  opacity: 0.5 !important;
-  cursor: not-allowed !important;
-}
+      --accent: 0 0% 96.1%;
+      --accent-foreground: 0 0% 9%;
 
-button:not([data-slot="button"]):not(.dropdown-trigger) {
-  background-color: #000000;
-  color: #ffffff;
-}
+      --destructive: 0 84.2% 60.2%;
+      --destructive-foreground: 0 0% 98%;
 
-.dark button:not([data-slot="button"]):not(.dropdown-trigger) {
-  background-color: #ffffff;
-  color: #000000;
-}
+      --border: 0 0% 89.8%;
+      --input: 0 0% 89.8%;
+      --ring: 0 0% 3.9%;
 
-button[data-slot="button"][type="submit"] {
-  background-color: #000000 !important;
-  color: #ffffff !important;
-}
+      --radius: 0.5rem;
 
-.dark button[data-slot="button"][type="submit"] {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-}
+      --chart-1: 12 76% 61%;
 
-button[data-slot="button"]:not([type="submit"]):not([class*="bg-red"]):not([class*="red-"]) {
-  background-color: #000000 !important;
-  color: #ffffff !important;
-}
+      --chart-2: 173 58% 39%;
 
-.dark button[data-slot="button"]:not([type="submit"]):not([class*="bg-red"]):not([class*="red-"]) {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-}
+      --chart-3: 197 37% 24%;
 
-button[class*="bg-red"],
-button[class*="red-500"],
-button[class*="red-600"] {
-  background-color: #ef4444 !important;
-  color: #fff !important;
-}
+      --chart-4: 43 74% 66%;
 
-.dark button[class*="bg-red"],
-.dark button[class*="red-500"],
-.dark button[class*="red-600"] {
-  background-color: #ef4444 !important;
-  color: #fff !important;
-}
+      --chart-5: 27 87% 67%;
+      --sidebar: oklch(0.985 0 0);
+      --sidebar-foreground: 240 5.3% 26.1%;
+      --sidebar-primary: 240 5.9% 10%;
+      --sidebar-primary-foreground: 0 0% 98%;
+      --sidebar-accent: 240 4.8% 95.9%;
+      --sidebar-accent-foreground: 240 5.9% 10%;
+      --sidebar-border: 220 13% 91%;
+      --sidebar-ring: 217.2 91.2% 59.8%;
+      --sidebar-background: 0 0% 98%;
+    }
 
-button:disabled {
-  background-color: #f3f4f6 !important;
-  color: #9ca3af !important;
-  border-color: #e5e7eb !important;
-  cursor: not-allowed !important;
-  opacity: 0.6 !important;
-}
+    .dark {
+      --background: 0 0% 3.9%;
+      --foreground: 0 0% 98%;
 
-.dark button:disabled {
-  background-color: #374151 !important;
-  color: #6b7280 !important;
-  border-color: #4b5563 !important;
-}
+      --card: 0 0% 3.9%;
+      --card-foreground: 0 0% 98%;
 
-.dropdown-trigger svg {
-  color: #000000;
-}
+      --popover: 0 0% 3.9%;
+      --popover-foreground: 0 0% 98%;
 
-.dark .dropdown-trigger svg {
-  color: #ffffff;
-}
+      --primary: 0 0% 98%;
+      --primary-foreground: 0 0% 9%;
 
-/* === Dropdown & Menu === */
-[role="menu"] {
-  background-color: hsl(var(--background)) !important;
-  color: hsl(var(--foreground)) !important;
-}
+      --secondary: 0 0% 14.9%;
+      --secondary-foreground: 0 0% 98%;
 
-[role="menuitem"] {
-  color: hsl(var(--foreground)) !important;
-}
+      --muted: 0 0% 14.9%;
+      --muted-foreground: 0 0% 63.9%;
 
-[role="menuitem"]:hover {
-  background-color: hsl(var(--background)) !important;
-  opacity: 0.8;
-}
+      --accent: 0 0% 14.9%;
+      --accent-foreground: 0 0% 98%;
 
-[role="dialog"] {
-  background-color: #ffffff !important;
-}
+      --destructive: 0 62.8% 30.6%;
+      --destructive-foreground: 0 0% 98%;
 
-.dark [role="dialog"] {
-  background-color: #ffffff !important;
-}
+      --border: 0 0% 14.9%;
+      --input: 0 0% 14.9%;
+      --ring: 0 0% 83.1%;
+      --chart-1: 220 70% 50%;
+      --chart-2: 160 60% 45%;
+      --chart-3: 30 80% 55%;
+      --chart-4: 280 65% 60%;
+      --chart-5: 340 75% 55%;
+      --sidebar: oklch(0.205 0 0);
+      --sidebar-foreground: 240 4.8% 95.9%;
+      --sidebar-primary: 224.3 76.3% 48%;
+      --sidebar-primary-foreground: 0 0% 100%;
+      --sidebar-accent: 240 3.7% 15.9%;
+      --sidebar-accent-foreground: 240 4.8% 95.9%;
+      --sidebar-border: 240 3.7% 15.9%;
+      --sidebar-ring: 217.2 91.2% 59.8%;
+      --sidebar-background: 240 5.9% 10%;
+    }
+  }
 
-
-/* === URL Display === */
-.url-display {
-  background-color: #f3f4f6;
-  color: #000000;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-family: monospace;
-  font-size: 12px;
-  display: inline;
-}
-
-.dark .url-display {
-  background-color: #f3f4f6;
-  color: #000000;
-}
-
-
-/* Light mode */
-.select-trigger,
-.select-trigger * {
-  background-color: white !important;
-  color: black !important;
-  border-color: #d1d5db !important; /* gray-300 */
-}
-
-/* Dark mode */
-.dark .select-trigger,
-.dark .select-trigger * {
-  background-color: #1f2937 !important; /* gray-800 */
-  color: white !important;
-  border-color: #374151 !important; /* gray-700 */
-}
-
-/* Dropdown content */
-.select-content,
-.select-content * {
-  background-color: white !important;
-  color: black !important;
-}
-
-.dark .select-content,
-.dark .select-content * {
-  background-color: #1f2937 !important;
-  color: white !important;
-}
-
-
-
-
-
-
-
+  @layer base {
+    * {
+      @apply border-border;
+    }
+    body {
+      @apply bg-background text-foreground;
+    }
+  }

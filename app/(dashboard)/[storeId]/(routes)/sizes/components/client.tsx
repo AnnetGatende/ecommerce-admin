@@ -3,45 +3,40 @@
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
+import React from "react";
 import { SizeColumn, columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import { ApiList } from "@/components/ui/api-list";
 
-interface SizesClientProps{
+interface SizesClinetProps {
     data: SizeColumn[]
 }
 
-export const SizesClient: React.FC<SizesClientProps>=({
-    data
-})=>{
-    const router=useRouter();
-    const params=useParams();
+export const SizesClient: React.FC<SizesClinetProps> = ({
+    data 
+}) => {
+    const router = useRouter();
+    const params = useParams();
 
-    return(
+    return (
         <>
         <div className="flex items-center justify-between">
-           <Heading
-           title={`Sizes(${data.length})`}
-           description="Manage sizes for your store"
-           />
-           <Button onClick={()=>router.push(`/${params.storeId}/sizes/new`)}>
-            <Plus className="mr-2 h-4 w-4"/>
+        <Heading
+        title={`Sizes (${data.length})`}
+        description="Manage Sizes for your stores"
+        /> 
+        <Button onClick={() => router.push(`/${params.storeId}/sizes/new`)}>
+            <Plus className="mr-2 h-4 w-4" />
             Add New
-           </Button>
+        </Button>
         </div>
-        <Separator/>
-        <DataTable 
-        searchKey="name"
-         columns={columns} 
-         data={data}
-         className="[&_th]:border-0 [&_td]:border-0 [&_tr]:border-0"/>
-        <Heading title="API" description="API calls for Sizes"/>
-        <Separator/>
-        <ApiList entityName="sizes" entityIdName="sizeId"/>
-        
+        <Separator />
+        <DataTable searchKey="name" columns={columns} data={data} />
+        <Heading title="API" description="API calls for sizes" />
+        <Separator />
+        <ApiList entityName="sizes" entityIdName="sizeId" />
         </>
     )
 }

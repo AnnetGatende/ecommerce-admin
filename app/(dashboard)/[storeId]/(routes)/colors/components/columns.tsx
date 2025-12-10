@@ -1,15 +1,14 @@
-"use client"
+"use client";
 
-import { ColumnDef } from "@tanstack/react-table"
-import { CellAction } from "./cell-action"
+import { ColumnDef } from "@tanstack/react-table";
+import { CellAction } from "./cell-action";
 
 export type ColorColumn = {
-  id: string
-  name: string
-  value:string
-  createdAt: string
- 
-}
+  id: string;
+  name: string;
+  value: string;
+  createdAt: string;
+};
 
 export const columns: ColumnDef<ColorColumn>[] = [
   {
@@ -19,14 +18,10 @@ export const columns: ColumnDef<ColorColumn>[] = [
   {
     accessorKey: "value",
     header: "Value",
-    cell:({row})=>(
+    cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
-       <span> {row.original.value}</span>
-        <div 
-        className="h-6 w-6 rounded-full border hidden" 
-        style={{backgroundColor: row.original.value}}
-        />
-
+        {row.original.value}
+        <div className="h-6 w-6 rounded-full border" style={{ backgroundColor: row.original.value }} />
       </div>
     )
   },
@@ -35,9 +30,7 @@ export const columns: ColumnDef<ColorColumn>[] = [
     header: "Date",
   },
   {
-    id:"actions",
-    cell:({row})=><CellAction data={row.original}/>
+    id: "actions",
+    cell: ({row}) => <CellAction  data={row.original} />
   }
-
-  
-]
+];
