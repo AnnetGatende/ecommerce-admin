@@ -42,6 +42,18 @@ const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
         return `${orderItem.product.name} (${orderItem.quantity}) [${sizeNames}] [${colorNames}]`;
       })
       .join(", "),
+    sizes: Array.from(
+      new Set(
+        item.orderItems
+          .flatMap((orderItem) => orderItem.product.sizes?.map((s) => s.name) || [])
+      )
+    ).join(", "),
+    colors: Array.from(
+      new Set(
+        item.orderItems
+          .flatMap((orderItem) => orderItem.product.colors?.map((c) => c.name) || [])
+      )
+    ).join(", "),
     totalPrice: formatter.format(
       item.orderItems.reduce((total, item) => {
         return total + Number(item.product.price) * item.quantity;
