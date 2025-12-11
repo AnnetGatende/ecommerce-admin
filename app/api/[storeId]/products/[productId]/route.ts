@@ -20,8 +20,8 @@ export async function GET (
             include: {
                 images: true,
                 category: true,
-                size: true,
-                color: true
+                sizes: true,
+                colors: true
             }
         });
 
@@ -45,8 +45,8 @@ export async function PATCH (
             name,
             price,
             categoryId,
-            colorId,
-            sizeId,
+            colors,
+            sizes,
             images,
             isFeatured,
             isArchived
@@ -72,12 +72,12 @@ export async function PATCH (
             return new NextResponse("Category id is required", { status: 400 });
         }
 
-        if(!colorId) {
-            return new NextResponse("Color id is required", { status: 400 });
+        if(!colors || !Array.isArray(colors) || colors.length === 0) {
+            return new NextResponse("Colors are required", { status: 400 });
         }
 
-        if(!sizeId) {
-            return new NextResponse("Size id is required", { status: 400 });
+        if(!sizes || !Array.isArray(sizes) || sizes.length === 0) {
+            return new NextResponse("Sizes are required", { status: 400 });
         }
 
         if (!params.productId) {
@@ -103,10 +103,14 @@ export async function PATCH (
                name,
                price,
                categoryId,
-               colorId,
-               sizeId,
                images: {
                 deleteMany: {}
+               },
+               sizes: {
+                set: sizes.map((id: string) => ({ id }))
+               },
+               colors: {
+                set: colors.map((id: string) => ({ id }))
                },
                isFeatured,
                isArchived,
@@ -121,7 +125,10 @@ export async function PATCH (
                 images: {
                     createMany: {
                         data: [
-                            ...images.map((image: { url: string }) => image),
+                            ...images.map((image: { url: string; colorId?: string | null }) => ({
+                                url: image.url,
+                                colorId: image.colorId || null,
+                            })),
                         ]
                     }
                 }

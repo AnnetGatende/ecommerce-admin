@@ -15,8 +15,8 @@ export async function POST(
             name,
             price,
             categoryId,
-            colorId,
-            sizeId,
+            sizes,
+            colors,
             images,
             isFeatured,
             isArchived
@@ -42,12 +42,12 @@ export async function POST(
             return new NextResponse("Category id is required", { status: 400 });
         }
 
-        if(!colorId) {
-            return new NextResponse("Color id is required", { status: 400 });
+        if(!colors || !Array.isArray(colors) || colors.length === 0) {
+            return new NextResponse("Colors are required", { status: 400 });
         }
 
-        if(!sizeId) {
-            return new NextResponse("Size id is required", { status: 400 });
+        if(!sizes || !Array.isArray(sizes) || sizes.length === 0) {
+            return new NextResponse("Sizes are required", { status: 400 });
         }
 
         if (!params.storeId) {
@@ -72,15 +72,20 @@ export async function POST(
                 isArchived,
                 isFeatured,
                 categoryId,
-                colorId,
-                sizeId,
                 storeId: params.storeId,
+                sizes: {
+                    connect: sizes.map((id: string) => ({ id }))
+                },
+                colors: {
+                    connect: colors.map((id: string) => ({ id }))
+                },
                 images: {
                     createMany: {
-                        data: [
-                            ...images.map((image: { url: string }) => image)
-                        ]
-                    }
+                        data: images.map((image: { url: string; colorId?: string | null }) => ({
+                            url: image.url,
+                            colorId: image.colorId || null,
+                        }))
+                    },
                 }
             }
         });
@@ -115,16 +120,24 @@ export async function GET(
             where: {
                 storeId: params.storeId,
                 categoryId,
-                colorId,
-                sizeId,
+                colors: colorId ? {
+                    some: {
+                        id: colorId
+                    }
+                } : undefined,
+                sizes: sizeId ? {
+                    some: {
+                        id: sizeId
+                    }
+                } : undefined,
                 isFeatured: isFeatured ? true : undefined,
                 isArchived: false
             },
             include: {
                 images: true,
                 category: true,
-                color: true,
-                size: true
+                colors: true,
+                sizes: true
             },
             orderBy: {
                 createdAt: 'desc'

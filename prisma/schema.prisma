@@ -62,7 +62,7 @@ model Size {
   store     Store     @relation("StoreToSize", fields: [storeId], references: [id])
   name      String
   value     String
-  products  Product[]
+  products  Product[] @relation("ProductSizes")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
@@ -75,7 +75,8 @@ model Color {
   store     Store     @relation("StoreToColor", fields: [storeId], references: [id])
   name      String
   value     String
-  products  Product[]
+  images    Image[]
+  products  Product[] @relation("ProductColors")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
@@ -105,10 +106,8 @@ model Product {
   price      Decimal
   isFeatured Boolean     @default(false)
   isArchived Boolean     @default(false)
-  sizeId     String
-  size       Size        @relation(fields: [sizeId], references: [id])
-  colorId    String
-  color      Color       @relation(fields: [colorId], references: [id])
+  sizes      Size[]      @relation("ProductSizes")
+  colors     Color[]     @relation("ProductColors")
   images     Image[]
   orderItems OrderItem[]
   createdAt  DateTime    @default(now())
@@ -116,19 +115,20 @@ model Product {
 
   @@index([storeId])
   @@index([categoryId])
-  @@index([sizeId])
-  @@index([colorId])
 }
 
 model Image {
   id        String   @id @default(uuid())
   productId String
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  colorId   String?
+  color     Color?   @relation(fields: [colorId], references: [id])
   url       String
   createdAt DateTime @default(now())
   updatedat DateTime @updatedAt
 
   @@index([productId])
+  @@index([colorId])
 }
 
 model Order {
