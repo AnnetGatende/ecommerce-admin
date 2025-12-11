@@ -36,7 +36,11 @@ const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
     customerEmail: item.customerEmail ?? "",
     trackingId: item.trackingId ?? "",
     products: item.orderItems
-      .map((orderItem) => `${orderItem.product.name} (${orderItem.quantity})`)
+      .map((orderItem) => {
+        const sizeNames = orderItem.product.sizes?.map((s) => s.name).join("/") || "No size";
+        const colorNames = orderItem.product.colors?.map((c) => c.name).join("/") || "No color";
+        return `${orderItem.product.name} (${orderItem.quantity}) [${sizeNames}] [${colorNames}]`;
+      })
       .join(", "),
     totalPrice: formatter.format(
       item.orderItems.reduce((total, item) => {
