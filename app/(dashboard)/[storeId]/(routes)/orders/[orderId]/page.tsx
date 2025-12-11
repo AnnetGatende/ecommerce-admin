@@ -1,17 +1,18 @@
-// Create this file: app/(dashboard)/[storeId]/(routes)/orders/[orderId]/page.tsx
+// app/(dashboard)/[storeId]/(routes)/orders/[orderId]/page.tsx
 
 import prismadb from "@/lib/prismadb";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import AdminTracking from "../../tracker/page"; // Adjust this path to where your AdminTracking component is located
+import AdminTracking from "../../tracker/page"; // Adjust path if needed
 
 const OrderDetailPage = async ({ 
   params 
 }: { 
   params: { storeId: string; orderId: string } 
 }) => {
+  // Fetch the order with nested relations
   const order = await prismadb.order.findFirst({
     where: {
       id: params.orderId,
@@ -22,7 +23,9 @@ const OrderDetailPage = async ({
         include: {
           product: {
             include: {
-              images: true,
+              images: true,       // Product images
+              sizes: true,        // Array of available sizes
+              colors: true,       // Array of available colors
             },
           },
         },
@@ -51,6 +54,8 @@ const OrderDetailPage = async ({
           </Link>
           <h1 className="text-3xl font-bold tracking-tight">Order Tracking</h1>
         </div>
+
+        {/* Pass the order to AdminTracking */}
         <AdminTracking order={order} storeId={params.storeId} />
       </div>
     </div>

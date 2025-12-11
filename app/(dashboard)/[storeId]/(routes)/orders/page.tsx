@@ -12,7 +12,12 @@ const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
     include: {
       orderItems: {
         include: {
-          product: true,
+          product: {
+            include: {
+              sizes: true,
+              colors: true,
+            },
+          },
         },
       },
     },

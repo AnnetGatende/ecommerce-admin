@@ -13,25 +13,47 @@ import { format } from "date-fns";
 import { toast } from "react-hot-toast";
 import { Decimal } from "@prisma/client/runtime/library";
 
+// ---------- FIXED TYPES ----------
+interface Size {
+  id: string;
+  name: string;
+  value: string;
+  storeId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface Color {
+  id: string;
+  name: string;
+  value: string;
+  storeId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface ProductImage {
+  id: string;
+  url: string;
+  createdAt: Date;
+  updatedat: Date;
+  productId: string;
+  colorId: string | null;
+}
+
 interface Product {
   id: string;
   name: string;
-  price: Decimal; // Use Prisma's Decimal type
+  price: Decimal;
   storeId: string;
   categoryId: string;
   isFeatured: boolean;
   isArchived: boolean;
-  sizeId: string;
-  colorId: string;
+  sizes: Size[];
+  colors: Color[];
   createdAt: Date;
   updatedAt: Date;
-  images: { 
-    id: string;
-    url: string; 
-    createdAt: Date;
-    productId: string;
-    updatedat: Date;
-  }[];
+  images: ProductImage[];
 }
 
 interface OrderItem {
@@ -51,7 +73,7 @@ interface TrackingUpdate {
   timestamp: Date;
 }
 
-interface Order {
+interface OrderWithRelations {
   id: string;
   storeId: string;
   phone: string;
@@ -70,39 +92,35 @@ interface Order {
 }
 
 interface AdminTrackingProps {
-  order: Order;
+  order: OrderWithRelations;
   storeId: string;
 }
 
+// ---------- COMPONENT ----------
 const AdminTracking = ({ order, storeId }: AdminTrackingProps) => {
   const [trackingId, setTrackingId] = useState(order.trackingId || "");
   const [newStatus, setNewStatus] = useState("");
   const [newLocation, setNewLocation] = useState("");
-  const [newNote, setNewNote] = useState(""); // Changed from newDescription to newNote
+  const [newNote, setNewNote] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
 
-  // Calculate total price from order items
-  const totalPrice = order.orderItems.reduce((total, item) => {
-    return total + (item.quantity * Number(item.product.price.toString()));
-  }, 0);
+  const totalPrice = order.orderItems.reduce(
+    (total, item) => total + item.quantity * Number(item.product.price.toString()),
+    0
+  );
 
   const handleUpdateTracking = async () => {
-    if (!newStatus.trim()) {
-      toast.error("Status is required");
-      return;
-    }
+    if (!newStatus.trim()) return toast.error("Status is required");
 
     setIsUpdating(true);
     try {
       const response = await fetch(`/api/${storeId}/orders/${order.id}/tracking`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           status: newStatus,
           location: newLocation || null,
-          note: newNote || null, // Changed from description to note
+          note: newNote || null,
         }),
       });
 
@@ -110,12 +128,9 @@ const AdminTracking = ({ order, storeId }: AdminTrackingProps) => {
         toast.success("Tracking updated successfully");
         setNewStatus("");
         setNewLocation("");
-        setNewNote(""); // Changed from setNewDescription
-        // Refresh the page to show new updates
+        setNewNote("");
         window.location.reload();
-      } else {
-        toast.error("Failed to update tracking");
-      }
+      } else toast.error("Failed to update tracking");
     } catch (error) {
       toast.error("Something went wrong");
     } finally {
@@ -124,28 +139,19 @@ const AdminTracking = ({ order, storeId }: AdminTrackingProps) => {
   };
 
   const handleAssignTrackingId = async () => {
-    if (!trackingId.trim()) {
-      toast.error("Tracking ID is required");
-      return;
-    }
+    if (!trackingId.trim()) return toast.error("Tracking ID is required");
 
     try {
       const response = await fetch(`/api/${storeId}/orders/${order.id}/tracking-id`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          trackingId: trackingId,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ trackingId }),
       });
 
       if (response.ok) {
         toast.success("Tracking ID assigned successfully");
         window.location.reload();
-      } else {
-        toast.error("Failed to assign tracking ID");
-      }
+      } else toast.error("Failed to assign tracking ID");
     } catch (error) {
       toast.error("Something went wrong");
     }
@@ -157,8 +163,7 @@ const AdminTracking = ({ order, storeId }: AdminTrackingProps) => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Package className="h-5 w-5" />
-            Order Details
+            <Package className="h-5 w-5" /> Order Details
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -198,12 +203,8 @@ const AdminTracking = ({ order, storeId }: AdminTrackingProps) => {
             <Badge variant={order.isPaid ? "default" : "destructive"}>
               {order.isPaid ? "Paid" : "Pending Payment"}
             </Badge>
-            <Badge variant="outline">
-              Order #{order.id.slice(-8)}
-            </Badge>
-            <Badge variant="outline">
-              {format(new Date(order.createdAt), "MMM dd, yyyy")}
-            </Badge>
+            <Badge variant="outline">Order #{order.id.slice(-8)}</Badge>
+            <Badge variant="outline">{format(new Date(order.createdAt), "MMM dd, yyyy")}</Badge>
           </div>
         </CardContent>
       </Card>
@@ -231,6 +232,16 @@ const AdminTracking = ({ order, storeId }: AdminTrackingProps) => {
                   <p className="text-sm text-gray-500">
                     Quantity: {item.quantity} × KSh {Number(item.product.price.toString()).toLocaleString()}
                   </p>
+                  {item.product.sizes.length > 0 && (
+                    <p className="text-xs text-gray-400">
+                      Sizes: {item.product.sizes.map((s) => s.name).join(", ")}
+                    </p>
+                  )}
+                  {item.product.colors.length > 0 && (
+                    <p className="text-xs text-gray-400">
+                      Colors: {item.product.colors.map((c) => c.name).join(", ")}
+                    </p>
+                  )}
                 </div>
                 <div className="text-right">
                   <p className="font-semibold">
