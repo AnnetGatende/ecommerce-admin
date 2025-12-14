@@ -6,8 +6,8 @@ import type { NextRequest, NextFetchEvent } from "next/server";
 function handleCors(request: NextRequest) {
     const origin = request.headers.get("origin");
     const allowedOrigins = [
-        process.env.FRONTEND_STORE_URL || "https://bagenvy.vercel.app",
-        "https://rwaya-admin.vercel.app", // Production URL
+        process.env.FRONTEND_STORE_URL || "https://ecommerce-store-1p6o.vercel.app/",
+        "https://ecommerce-admin-delta-olive.vercel.app/", // Production URL
     ];
 
     // Check if origin is allowed
@@ -57,8 +57,8 @@ export default function middleware(request: NextRequest, event: NextFetchEvent) 
         if (response instanceof Response) {
             const origin = request.headers.get("origin");
             const allowedOrigins = [
-                process.env.FRONTEND_STORE_URL || "https://bagenvy.vercel.app",
-                "https://bagenvy.vercel.app",
+                process.env.FRONTEND_STORE_URL || "https://ecommerce-store-1p6o.vercel.app/",
+                "https://ecommerce-store-1p6o.vercel.app/",
             ];
             
             const isAllowedOrigin = origin && allowedOrigins.includes(origin);

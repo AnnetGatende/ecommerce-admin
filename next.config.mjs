@@ -78,7 +78,7 @@ const nextConfig = {
                     // CORS headers
                     {
                         key: "Access-Control-Allow-Origin",
-                        value: process.env.FRONTEND_STORE_URL || "https://bagenvy.vercel.app",
+                        value: process.env.FRONTEND_STORE_URL || "https://ecommerce-store-1p6o.vercel.app/",
                     },
                     {
                         key: "Access-Control-Allow-Methods",
