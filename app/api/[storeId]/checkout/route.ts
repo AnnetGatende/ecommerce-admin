@@ -3,7 +3,7 @@ import paystack from "@/lib/paystack";
 import prismadb from "@/lib/prismadb";
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": process.env.FRONTEND_STORE_URL || "https://bagenvy.vercel.app",
+  "Access-Control-Allow-Origin": process.env.FRONTEND_STORE_URL || "https://ecommerce-store-1p6o.vercel.app",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
   "Content-Type": "application/json"
