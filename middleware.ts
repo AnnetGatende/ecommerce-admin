@@ -57,8 +57,8 @@ export default function middleware(request: NextRequest, event: NextFetchEvent) 
         if (response instanceof Response) {
             const origin = request.headers.get("origin");
             const allowedOrigins = [
-                process.env.FRONTEND_STORE_URL || "https://ecommerce-store-1p6o.vercel.app/",
-                "https://ecommerce-store-1p6o.vercel.app/",
+                process.env.FRONTEND_STORE_URL || "https://ecommerce-store-1p6o.vercel.app",
+                "https://ecommerce-store-1p6o.vercel.app",
             ];
             
             const isAllowedOrigin = origin && allowedOrigins.includes(origin);
